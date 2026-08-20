@@ -18,7 +18,7 @@ export class ApiError extends Error {
     this.name = 'ApiError';
     this.status = status;
     this.errors = errors;
-    this.traceId = traceId;tooi 
+    this.traceId = traceId; 
     this.retryAfterSeconds = retryAfterSeconds;
   }
 

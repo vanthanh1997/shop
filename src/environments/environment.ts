@@ -1,6 +1,6 @@
 import { AppEnvironment } from './environment.model';
 
-export const enviroment: AppEnvironment = {
+export const environment: AppEnvironment = {
   production: true,
   apiBaseUrl: '/api',
   googleClientId: '',
