@@ -1,0 +1,13 @@
+text
+# Thư mục do công cụ sinh ra
+dist/
+.angular/
+out-tsc/
+coverage/
+node_modules/
+
+# File khoá: định dạng lại sẽ tạo diff khổng lồ và vô nghĩa
+package-lock.json
+
+# Tài nguyên tĩnh
+public/
