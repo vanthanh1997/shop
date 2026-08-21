@@ -1,27 +1,64 @@
-import { ApplicationConfig, ErrorHandler, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter } from '@angular/router';
-
-import { routes } from './app.routes';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { loadingInterceptor } from '@core/interceptors/loading-interceptor';
-import { langInterceptor } from '@core/interceptors/lang-interceptor';
-import { errorInterceptor } from '@core/interceptors/error-interceptor';
+import {
+  ApplicationConfig,
+  ErrorHandler,
+  LOCALE_ID,
+  provideBrowserGlobalErrorListeners,
+  provideZonelessChangeDetection,
+} from '@angular/core';
+import {
+  TitleStrategy,
+  provideRouter,
+  withComponentInputBinding,
+  withInMemoryScrolling,
+} from '@angular/router';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+
 import { API_BASE_URL } from '@core/api';
-import { environment } from '@env/environment';
 import { GlobalErrorHandler } from '@core/errors/global-error-handler';
+import { errorInterceptor } from '@core/interceptors/error-interceptor';
+import { langInterceptor } from '@core/interceptors/lang-interceptor';
+import { loadingInterceptor } from '@core/interceptors/loading-interceptor';
+import { DEFAULT_LANG, I18N_PREFIX, I18N_SUFFIX } from '@core/i18n/lang';
+import { AppTitleStrategy } from '@core/seo/app-title-strategy';
+import { environment } from '@env/environment';
+import { routes } from './app.routes';
+
+function readStoredLang(): string {
+  try {
+    const raw = localStorage.getItem('shop.lang');
+    return raw === 'vi' || raw === 'en' ? raw : 'vi';
+  } catch {
+    return 'vi';
+  }
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
+    provideZonelessChangeDetection(),
+
+    provideRouter(
+      routes,
+      withComponentInputBinding(),
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'enabled',
+        anchorScrolling: 'enabled',
+      }),
+    ),
     provideHttpClient(
       withFetch(),
       withInterceptors([loadingInterceptor, langInterceptor, errorInterceptor]),
     ),
+    provideTranslateService({
+      lang: DEFAULT_LANG,
+      fallbackLang: DEFAULT_LANG,
+      loader: provideTranslateHttpLoader({ prefix: I18N_PREFIX, suffix: I18N_SUFFIX }),
+    }),
     { provide: API_BASE_URL, useValue: environment.apiBaseUrl },
-
-    // Thay ErrorHandler mặc định (chỉ console.error) bằng bản có toast.
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
-
-  ]
+    { provide: LOCALE_ID, useFactory: readStoredLang },
+    { provide: TitleStrategy, useClass: AppTitleStrategy },
+  ],
 };
