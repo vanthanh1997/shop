@@ -1,0 +1,18 @@
+{
+  "vi": {
+    "APP_INIT_ERROR": "Không thể khởi tạo ứng dụng. Vui lòng tải lại trang.",
+    "NETWORK_ERROR": "Mất kết nối mạng. Vui lòng kiểm tra lại đường truyền.",
+    "SESSION_EXPIRED": "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.",
+    "CONFIG_LOAD_FAILED": "Tải cấu hình hệ thống thất bại.",
+    "LOADING": "Đang tải dữ liệu, vui lòng chờ...",
+    "MAINTENANCE_MODE": "Hệ thống đang bảo trì. Vui lòng quay lại sau."
+  },
+  "en": {
+    "APP_INIT_ERROR": "Failed to initialize application. Please reload the page.",
+    "NETWORK_ERROR": "Network connection lost. Please check your internet connection.",
+    "SESSION_EXPIRED": "Session has expired. Please log in again.",
+    "CONFIG_LOAD_FAILED": "Failed to load system configuration.",
+    "LOADING": "Loading, please wait...",
+    "MAINTENANCE_MODE": "System is under maintenance. Please try again later."
+  }
+}
