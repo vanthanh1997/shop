@@ -1,0 +1,39 @@
+<h1 class="card-title text-2xl">Đăng nhập</h1>
+
+@if (formError(); as message) {
+<div role="alert" class="alert alert-error alert-soft">
+    <span>
+        {{ message }}
+        @if (cooldown(); as seconds) {
+        <span class="font-semibold">Thử lại sau {{ seconds }} giây.</span>
+        }
+    </span>
+</div>
+}
+
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <fieldset class="fieldset" [disabled]="submitting()">
+        <legend class="fieldset-legend">Thông tin đăng nhập</legend>
+        <label class="label" for="login-email">Email</label>
+        <input id="login-email" type="email" class="input w-full" autocomplete="email" inputmode="email"
+            placeholder="ban@vidu.com" formControlName="email" [class.input-error]="isInvalid('email')"
+            [attr.aria-invalid]="isInvalid('email') || null" />
+        <app-field-error [control]="form.controls.email" label="Email" />
+        <label class="label" for="login-password">Mật khẩu</label>
+        <input id="login-password" type="password" class="input w-full" autocomplete="current-password"
+            formControlName="password" [class.input-error]="isInvalid('password')"
+            [attr.aria-invalid]="isInvalid('password') || null" />
+        <app-field-error [control]="form.controls.password" label="Mật khẩu" />
+        <button type="submit" class="btn btn-primary mt-2 w-full" [disabled]="submitting() || cooldown() !== null">
+            @if (submitting()) {
+            <span class="loading loading-spinner loading-sm" aria-hidden="true"></span>
+            }
+            Đăng nhập
+        </button>
+
+    </fieldset>
+</form>
+<div class="flex items-center justify-between text-sm">
+    <a class="link link-hover" routerLink="/forgot-password">Quên mật khẩu?</a>
+    <a class="link link-hover" routerLink="/register">Tạo tài khoản mới</a>
+</div>
