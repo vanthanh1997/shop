@@ -77,7 +77,7 @@ export class ApiClient {
 
   post<T>(path: string, body: unknown, options?: ApiRequestOptions): Observable<ApiResponse<T>> {
     return this.http
-      .post<ApiResponse<T>>(this.url(path), {
+      .post<ApiResponse<T>>(this.url(path), body, {
         params: toHttpParams(options?.params),
         context: options?.context,
         headers: options?.headers,
